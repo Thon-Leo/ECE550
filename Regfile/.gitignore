@@ -1,0 +1,38 @@
+# Ignore Quartus auto-generated files
+*.qws
+*.rpt
+*.chg
+*.eqn
+*.jdi
+*.sld
+*.summary
+*.pof
+*.sof
+*.qdb
+*.pin
+*.smsg
+db/
+incremental_db/
+simulation/
+output_files/
+
+# Ignore simulation waveforms and test outputs
+*.vwf
+*.wlf
+*.svf
+*.vcd
+
+# Ignore database and temporary files
+*.bak
+*.log
+*.tcl
+*.done
+*.map
+*.fit
+*.sta.rpt
+
+# Ignore Quartus backup files
+*_bak/
+
+# Ignore Quartus incremental compilation data
+dbs_cfi_index/
