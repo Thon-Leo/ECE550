@@ -48,7 +48,6 @@ module regfile_tb();
     end
 
 
-
     // Clock generator
     always
          #10     clock = ~clock;    // toggle
