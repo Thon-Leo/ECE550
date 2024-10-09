@@ -28,18 +28,18 @@ The `regfile.v` module implements a register file with the following features:
 - Allows reading from two registers and writing to one register in a single clock cycle.
 - Use a decoder to select which register's enable should be high.
 
+#### Zerocheck.v
+The `ZeroCheck.v` module checks if the given 5-bit input is zero:
+- This file was copied from Simple_ALU project, but adapted to 5 bits.
+- If the given `num` is zero, return 1.
+- Used `NOR` and `OR` gates to check if there are any `1`s.
+
 
 #### SLL.v
 The `SLL.v` module implements a Shift Left Logical (SLL) operation:
 - This file was copied from Simple_ALU project.
 - The shifter is used like a decoder for enabling the write signal of the register file.
 
-
-
-### How to Use
-- To use the modules in a design, instantiate them within a top-level Verilog file.
-- Provide appropriate clock, enable, and clear signals where needed.
-- For the `SLL` module, provide the input value to be shifted and the desired shift amount.
 
 ### Bugs
 - Currently there are no known issues.
