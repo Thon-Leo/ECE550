@@ -1,3 +1,4 @@
+// ripple carry adder for 12 bit
 module rca_12 (
     input [11:0] A, B,   
     input Cin,           
@@ -6,7 +7,7 @@ module rca_12 (
 );
     wire [11:0] carry;   
 
-    // Instantiate 16 full adders
+    // Instantiate 12 full adders
     fa FA0 ( .A(A[0]),  .B(B[0]),  .Cin(Cin),      .Sum(Sum[0]),  .Cout(carry[0]) );
     fa FA1 ( .A(A[1]),  .B(B[1]),  .Cin(carry[0]), .Sum(Sum[1]),  .Cout(carry[1]) );
     fa FA2 ( .A(A[2]),  .B(B[2]),  .Cin(carry[1]), .Sum(Sum[2]),  .Cout(carry[2]) );

@@ -1,3 +1,4 @@
+// 1 bit full adder
 module fa (
     input A,        
     input B,        

@@ -36,3 +36,6 @@ output_files/
 
 # Ignore Quartus incremental compilation data
 dbs_cfi_index/
+
+#ignore spim
+./spim

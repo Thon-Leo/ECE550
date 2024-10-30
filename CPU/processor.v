@@ -91,7 +91,7 @@
 	input [31:0] data_readRegA, data_readRegB;
 	
 	// control unit sigs
-	wire mem_to_reg, mem_write, ALU_src, reg_write, reg_rs2;
+	wire mem_to_reg, mem_write, ALU_src, reg_write, reg_rs2, is_add_i_sub;
 	
 	// ALU_sigs
 	wire [31:0] data_operandA, data_operandB, data_result;
@@ -123,27 +123,28 @@
 	control_unit c_i(
 		//		.processor_clock, 
 		//		.regfile_clock,
-		.opcode		(q_imem[31:27]),
-		.alu_op		(q_imem[6:2]),
-		.mem_to_reg (mem_to_reg),
-		.mem_write	(mem_write),
-		.ALU_src		(ALU_src),
-		.reg_write	(reg_write),
-		.reg_rs2		(reg_rs2),
-		.alu_sel_op (ctrl_ALUopcode)
+		.opcode		 (q_imem[31:27]),
+		.alu_op		 (q_imem[6:2]),
+		.mem_to_reg  (mem_to_reg),
+		.mem_write	 (mem_write),
+		.ALU_src		 (ALU_src),
+		.reg_write	 (reg_write),
+		.reg_rs2		 (reg_rs2),
+		.alu_sel_op  (ctrl_ALUopcode),
+		.is_add_i_sub(is_add_i_sub)
 	);
 	
 	// regfile output
 	// ctrl_writeReg, ctrl_writeEnabl, ctrl_readRegA, ctrlreadRegB
 	assign ctrl_writeEnable = reg_write;
-	assign ctrl_writeReg = (overflow) ? 5'b11110 : q_imem[26:22];
+	assign ctrl_writeReg = (is_add_i_sub) ? ((overflow) ? 5'b11110 : q_imem[26:22]) : q_imem[26:22];
 	assign ctrl_readRegB = (reg_rs2) ? q_imem[26:22] : q_imem[16:12];
 	assign ctrl_readRegA = q_imem[21:17];
 	
 	// overflow data
 	wire [31:0] status_data;
 	assign status_data = (~q_imem[31] & ~q_imem[30] & q_imem[29] & ~q_imem[28] & q_imem[27]) ? 32'h00000002 : (q_imem[2]) ? 32'h00000003 : 32'h00000001;
-	assign data_writeReg = (overflow) ? status_data : (mem_to_reg) ? q_dmem : data_result;
+	assign data_writeReg = (is_add_i_sub) ? ((overflow) ? status_data : ((mem_to_reg) ? q_dmem : data_result)) : ((mem_to_reg) ? q_dmem : data_result);
 	
 	
 	// alu input
@@ -155,7 +156,6 @@
 
 	// ALU
 	alu alu_i(
-		.rst(reset),
 		.data_operandA	(data_operandA), 
 		.data_operandB	(data_operandB), 
 		.ctrl_ALUopcode(ctrl_ALUopcode),
@@ -168,7 +168,7 @@
 	
 	// Mem
 	assign data 			= data_readRegB;
-	assign address_dmem	= data_result;
+	assign address_dmem	= data_result[11:0];
 	assign wren 			= mem_write;
  
 
